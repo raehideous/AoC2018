@@ -21,8 +21,7 @@ def part_one(input):
 
 def part_two(polymer):
     letters = set([c.lower() for c in polymer])
-    minimal_count = min([part_one(polymer.replace(l, '').replace(l.upper(), '')) for l in letters])
-    return minimal_count
+    return min([part_one(polymer.replace(l, '').replace(l.upper(), '')) for l in letters])
 
 
 data = get_data(day=5)

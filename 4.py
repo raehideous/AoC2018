@@ -1,12 +1,12 @@
 from collections import defaultdict
+import operator
 from aocd import get_data
-from datetime import datetime
 
 def get_minutes(time):
     return int(time[-2:])
 
 
-def part_one(input):
+def solve(input):
     guards_times = defaultdict(int)
     times = defaultdict(int)
     guard = None
@@ -26,27 +26,37 @@ def part_one(input):
             for t in range(asleep, time):
                 guards_times[(guard, t)] += 1
 
+    strategy_one(times, guards_times)
+    strategy_two(guards_times)
+
+def strategy_one(times, guards_times):
     top_time = 0
-    top_guard = 0
+    guard_with_top_time = None
     for key in times:
         if times[key] > top_time:
             top_time = times[key]
-            top_guard = key
+            guard_with_top_time = key
 
-    top = None
+    guard_with_top_time_minutes = [(key, val) for key, val in guards_times.items() if guard_with_top_time in key]
+
+    most_asleep_guard = None
+    for key, val in guard_with_top_time_minutes:
+        if most_asleep_guard is None or val > guards_times[most_asleep_guard]:
+            most_asleep_guard = key
+
+    print('Part Two:', most_asleep_guard[0] * most_asleep_guard[1])
+
+
+def strategy_two(guards_times):
+    most_freq_same_minute = None
     for key, val in guards_times.items():
-        guard, time = key
-        if top is None or val > guards_times[top]Z:
-            top = key
+        if most_freq_same_minute is None or val > guards_times[most_freq_same_minute]:
+            most_freq_same_minute = key
+    print('Part Two:', most_freq_same_minute[0] * most_freq_same_minute[1])
 
-    print(top_guard, top_time, top, top[0] * top[1])
-
-def part_two(input):
-    res=''
-    print("Part Two: ", res)
 
 
 data=get_data(day=4).splitlines()
 data.sort()
-part_one(data)
-part_two(data)
+
+solve(data)
