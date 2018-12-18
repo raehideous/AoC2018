@@ -21,7 +21,6 @@ def solve(input):
         elif 'falls asleep' in action:
             asleep = time
         elif 'wakes up' in action:
-            # guardsTimes[guard] =
             times[guard] += (time - asleep)
             for t in range(asleep, time):
                 guards_times[(guard, t)] += 1
